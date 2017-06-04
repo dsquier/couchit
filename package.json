@@ -1,0 +1,51 @@
+{
+  "name": "couchit",
+  "description": "CouchDB iterator toolkit",
+  "keywords": [
+    "couchdb",
+    "couchdb tool",
+    "database",
+    "command line",
+    "iterator",
+    "batch",
+    "document updater",
+    "toolkit",
+    "hash docs"
+  ],
+  "version": "0.5.0",
+  "homepage": "http://github.com/dsquier/couchit",
+  "author": "David Squier (dsquier@gmail.com)",
+  "main": "./lib/couchit",
+  "bin": {
+    "couchit": "./bin/couchit"
+  },
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/dsquier/couchit.git"
+  },
+  "bugs": {
+    "url": "http://github.com/dsquier/couchit/issues"
+  },
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib"
+  },
+  "dependencies": {
+    "async": "^2.4.1",
+    "commander": "^2.9.0",
+    "nano": "^6.3.0",
+    "node-object-hash": "1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "engines": {
+    "node": "'>= 6.10.0'"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/dsquier/couchit/raw/master/LICENSE"
+    }
+  ]
+}
