@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "description": "Basic User Schema",
+  "properties": {
+    "id": { "title": "User ID", "type": "integer", "minimum": 1 },
+    "name": { "title": "User Name", "type": "string" },
+    "group": { "title": "User Group", "type": "array" },
+    "permissions": {
+      "title": "User Permissions",
+      "type": "object",
+      "properties": {
+        "read": { "title": "Has Read Access?", "type": "boolean" },
+        "write": { "title": "Has Write Access?", "type": "boolean" }
+      }
+    }
+  },
+  "required": ["id", "name", "permissions"]
+}

@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "name": "Bob",
+  "group": ["admin"],
+  "permissions": {
+    "read": true,
+    "write": false
+  }
+}
