@@ -13,7 +13,7 @@
     "json-schema",
     "schema validator"
   ],
-  "version": "0.6.0",
+  "version": "0.7.0",
   "homepage": "http://github.com/dsquier/couchit",
   "author": "David Squier (dsquier@gmail.com)",
   "main": "./lib/couchit",
@@ -33,9 +33,10 @@
     "lib": "./lib"
   },
   "dependencies": {
-    "ajv": "^5.1.5",
+    "ajv": "^5.2.0",
     "async": "^2.4.1",
-    "commander": "^2.9.0",
+    "commander": "^2.10.0",
+    "json-schema-ref-parser": "^3.1.2",
     "nano": "^6.3.0",
     "node-object-hash": "1.2.0"
   },
