@@ -44,7 +44,7 @@ The following list all configuration settings. If no environment variables are s
 | Setting          | Description | Default Value  |
 | ---------------- |-------------| ---------------- |
 | COUCHDB_ENDPOINT | URI and port of CouchDB server, (does not include http://) | 'localhost:5984' |
-| COUCHDB_DATABASE | CouchDB database | 'master' |
+| COUCHDB_DATABASE | CouchDB database | 'db' |
 | COUCHDB_USERNAME | CouchDB user | 'couchdb' |
 | COUCHDB_PASSWORD | CouchDB password | 'couchdb' |
 | OPTS_INTERVAL    | Number of ms to wait between page requests | 100 |
@@ -76,16 +76,19 @@ Utility Functions
 
 On each document iteration, the following functions are available via the `Util()` object:
 
-| Function   | Description   |
-| ---------- | ------------- |
-| `audit`    | Add an object to the audit array, which is returned in the callback |
-| `count`    | Increment a counter associated with a particular key |
-| `log`      | Alias for console.log |
-| `hash`     | Generate a SHA256 hash for a given document, object, or string |
-| `nano`     | Exposes nano [document functions](https://github.com/dscape/nano#document-functions)
-| `remove`   | Delete the document from the database |
-| `save`     | Save the document back to the database |
-| `validate` | Validate a document using [json-schema](http://json-schema.org/)
+| Function         | Description   |
+| ----------       | ------------- |
+| `audit`          | Add an object to the audit array, which is returned in the callback |
+| `count`          | Increment a counter associated with a particular key |
+| `dereference`    | Reference external json-schema file definitions from other files |
+| `log`            | Alias for console.log |
+| `hash`           | Generate a SHA256 hash for a given document, object, or string |
+| `nano`           | Exposes nano [document functions](https://github.com/dscape/nano#document-functions)
+| `remove`         | Delete the document from the database |
+| `save`           | Save the document back to the database |
+| `validate`       | Validate a document using [json-schema](http://json-schema.org/) |
+| `incrementWaits` | Set a wait. Used to ensure asyncronous process can complete for callback response |
+| `decrementWaits` | Remove a wait |
 
 Example Tasks
 -------------
@@ -147,13 +150,16 @@ Determine if a document is valid based on a json-schema specification. This task
 
 ### Update a parent document by checking for existence of child docs:
 
-Note that nano functions are not queued and therefore may run after Couchit finishes iterating.
+Note that nano functions run asyncrounously while documents are interated over. To ensure complete stats and (optional) audit object tracking, use the `util.incrementWaits()` to set a wait prior calling the async function and `util.decrementWaits()` to remove the wait upon completion.
 
 ```
 {
     "dependent-updates": (util, doc) => {
       if (doc.childKeys) {
         const keys = doc.childKeys;
+
+        // Set a wait
+        util.incrementWaits();
 
         // Do a bulk get for all childKeys
         util.nano.fetch(keys, (err, result) => {
@@ -178,6 +184,9 @@ Note that nano functions are not queued and therefore may run after Couchit fini
               doc.childKeys = newChildKeys;
               util.nano.insert(doc, (err, result) => {
                 console.log(result);
+
+                // Remove a wait
+                util.decrementWaits();
               });
             }
           }
